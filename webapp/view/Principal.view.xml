@@ -1,0 +1,87 @@
+<mvc:View controllerName="com.moony.gestorinventario.controller.Principal"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+    <MessageStrip text="{i18n>message.info.principal}" class="sapUiTinyMargin" />
+    <content>
+    <Button text="{i18n>button.action.alert}" press="onClick"></Button>
+    <!-- se agrego tabla-->
+    <Table id="idProductsTable"
+		inset="false"
+		items="{path: 'mProductos>/'}">
+      <headerToolbar>
+        <OverflowToolbar>
+          <content>
+            <Title text="{i18n>title}" level="H2"/>
+            <ToolbarSpacer />
+            <Button icon="sap-icon://add-product" press="onCreateProduct"></Button>
+            <Button type="Emphasized" text="{i18n>button.action.create}" press="onCreateProduct"></Button>
+          </content>
+        </OverflowToolbar>
+      </headerToolbar>
+      <infoToolbar>
+        <OverflowToolbar>
+          <Label text="{i18m>message.info.table}"/>
+        </OverflowToolbar>
+      </infoToolbar>
+      <columns>
+        <Column
+          width="12em">
+          <Text text="Product" />
+        </Column>
+        <Column
+          minScreenWidth="Tablet"
+          demandPopin="true">
+          <Text text="Supplier" />
+        </Column>
+        <Column
+          minScreenWidth="Desktop"
+          demandPopin="true"
+          hAlign="End">
+          <Text text="Dimensions" />
+        </Column>
+        <Column
+          minScreenWidth="Desktop"
+          demandPopin="true"
+          hAlign="Center">
+          <Text text="Weight" />
+        </Column>
+        <Column
+          hAlign="End">
+          <Text text="Price" />
+        </Column>
+      </columns>
+        <items>
+          <ColumnListItem vAlign="Middle">
+            <cells>
+              <ObjectIdentifier
+                title="{mProductos>Name}"
+                text="{mProductos>ProductId}"/>
+              <Text
+                text="{mProductos>SupplierName}" />
+              <Text
+                text="{mProductos>Width} x {mProductos>Depth} x {mProductos>Height} {mProductos>DimUnit}" />
+              <ObjectNumber
+                number="{mProductos>WeightMeasure}"
+                unit="{mProductos>WeightUnit}"
+                state="{
+                  parts: [
+                    {path: 'mProductos>WeightMeasure'},
+                    {path: 'mProductos>WeightUnit'}
+                  ],
+                  formatter: '.Formatter.weightState'
+                }" />
+              <ObjectNumber
+                  number="{
+                    parts:[{path:'mProductos>Price'},{path:'mProductos>CurrencyCode'}],
+                    type: 'sap.ui.model.type.Currency',
+                    formatOptions: {showMeasure: false}
+                  }"
+                  unit="{mProductos>CurrencyCode}" />
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+    </Page>
+</mvc:View>

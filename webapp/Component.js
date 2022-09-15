@@ -1,3 +1,6 @@
+var oBusyDialog;
+var oUrl, oUrlApi;
+
 sap.ui.define(
   ['sap/ui/core/UIComponent', 'sap/ui/Device', 'com/moony/gestorinventario/model/models'],
   function (UIComponent, Device, models) {
@@ -22,6 +25,8 @@ sap.ui.define(
 
         // set the device model
         this.setModel(models.createDeviceModel(), 'device')
+
+        oBusyDialog = new sap.m.BusyDialog();
 
         //creacion de modelos
         var moProductos = new sap.ui.model.json.JSONModel();

@@ -3,10 +3,33 @@
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
     <MessageStrip text="{i18n>message.info.principal}" class="sapUiTinyMargin" />
-    <content>
-    <Button text="{i18n>button.action.alert}" press="onClick"></Button>
+
     <!-- se agrego tabla-->
+
+    <IconTabBar
+				id="iconTabBar"
+				select=".onQuickFilter"
+				expandable="false">
+				<items>
+					<IconTabFilter
+						key="all"
+						showAll="true"
+						count="4"
+						text="oggo"/>
+					<IconTabSeparator/>
+					<IconTabFilter
+						key="inStock"
+						icon="sap-icon://message-success"
+						iconColor="Positive"
+						count="3"
+						text="hola"/>
+				</items>
+
+    <content>
     <Table id="idProductsTable"
+    growing="true"
+    growingScrollToLoad="true"
+    mode="MultiSelect"
 		inset="false"
 		items="{path: 'mProductos>/'}">
       <headerToolbar>
@@ -14,8 +37,13 @@
           <content>
             <Title text="{i18n>title}" level="H2"/>
             <ToolbarSpacer />
-            <Button icon="sap-icon://add-product" press="onCreateProduct"></Button>
-            <Button type="Emphasized" text="{i18n>button.action.create}" press="onCreateProduct"></Button>
+            <Button type="Emphasized" text="{i18n>button.action.create}" press=".onClick"></Button>
+            <SearchField
+								id="searchField"
+								tooltip="{i18n>Principal.SearchTooltip.text}"
+								search=".onSearch"
+								width="auto">
+							</SearchField>
           </content>
         </OverflowToolbar>
       </headerToolbar>
@@ -52,11 +80,11 @@
         </Column>
       </columns>
         <items>
-          <ColumnListItem vAlign="Middle">
+          <ColumnListItem vAlign="Middle" type="Navigation"
+							press=".onPress">
             <cells>
               <ObjectIdentifier
-                title="{mProductos>Name}"
-                text="{mProductos>ProductId}"/>
+                title="{mProductos>Name}"/>
               <Text
                 text="{mProductos>SupplierName}" />
               <Text
@@ -83,5 +111,6 @@
         </items>
       </Table>
     </content>
+    </IconTabBar>
     </Page>
 </mvc:View>

@@ -85,29 +85,39 @@
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
+        "viewPath": "com.moony.gestorinventario.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
         "viewType": "XML",
         "async": true,
-        "viewPath": "com.moony.gestorinventario.view",
-        "controlAggregation": "pages",
-        "controlId": "app",
         "clearControlAggregation": false
       },
       "routes": [
         {
           "name": "RoutePrincipal",
-          "pattern": ":?query:",
-          "target": [
-            "TargetPrincipal"
-          ]
+          "pattern": "",
+          "target": ["TargetPrincipal"]
+        },
+        {
+          "name": "RouteDetalle",
+          "pattern": "RouteDetalle/{oId}",
+          "target": "TargetDetalle"
         }
       ],
       "targets": {
         "TargetPrincipal": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "Principal",
-          "viewName": "Principal"
+          "viewName": "Principal",
+          "viewLevel": 1
+        },
+        "TargetDetalle": {
+          "viewId": "Detalle",
+          "viewName": "Detail",
+          "viewLevel": 2
+        },
+        "TargetNotFound":{
+          "viewId": "NotFound",
+          "viewName": "NotFound"
         }
       }
     },

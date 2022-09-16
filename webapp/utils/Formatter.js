@@ -62,6 +62,19 @@ sap.ui.define(["sap/ui/core/library"], function (coreLibrary) {
 			} else {
 				return ValueState.Success;
 			}
+		},
+
+		formatterCountDataRows: function (oArray) {
+			var sCount = "";
+
+			try {
+				if (oArray != undefined)
+					sCount = oArray.length + "";
+			} catch (e) {
+				sCount = "";
+			}
+
+			return sCount;
 		}
 	};
 

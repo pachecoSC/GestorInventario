@@ -31,7 +31,11 @@ sap.ui.define(
         //creacion de modelos
         var moProductos = new sap.ui.model.json.JSONModel();
         sap.ui.getCore().setModel(moProductos,"mProductos");
-        this.setModel(moProductos,"mProductos");
+        this.setModel(moProductos, "mProductos");
+
+        // set the product feedback model
+        this.setModel(models.createCommentsModel(), "productFeedback");
+
       }
     })
   }

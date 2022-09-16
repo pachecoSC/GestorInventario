@@ -6,12 +6,23 @@ sap.ui.define(
     'sap/ui/Device',
     'sap/ui/model/json/JSONModel',
     '../model/DemoProductService',
-    '../utils/formatter'
+    '../utils/formatter',
+    'sap/ui/model/Filter',
+    'sap/ui/model/FilterOperator'
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-  function (BaseController, MessageToast, Device, JSONModel, DemoProductService, Formatter) {
+  function (
+    BaseController,
+    MessageToast,
+    Device,
+    JSONModel,
+    DemoProductService,
+    Formatter,
+    Filter,
+    FilterOperator
+  ) {
     'use strict'
     var oCore
     var oView
@@ -51,9 +62,34 @@ sap.ui.define(
           var sQuery = oEvent.getParameter('query')
 
           if (sQuery && sQuery.length > 0) {
-            aTableSearchState = [new Filter('Product', FilterOperator.Contains, sQuery)]
+            aTableSearchState = [new Filter('Name', FilterOperator.Contains, sQuery)]
           }
           this._applySearch(aTableSearchState)
+        }
+      },
+
+      _applySearch: function (aTableSearchState) {
+        var oTable = this.byId('idProductsTable'),
+          oViewModel = this.getModel('mProductos')
+        oTable.getBinding('items').filter(aTableSearchState, 'Application')
+        // changes the noDataText of the list in case there are no filter results
+        if (aTableSearchState.length !== 0) {
+          oViewModel.setProperty(
+            '/tableNoDataText',
+            this.getResourceBundle().getText('Principal.table.no.data')
+          )
+        }
+      },
+
+      onUpdateFinished: function (oEvent) {
+        var oTable = oEvent.getSource();
+        var iTotalItems = oEvent.getParameter("total");
+        var oTitle = oView.byId('tableHeader')
+
+        if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
+          oTitle.setText(this.getResourceBundle().getText('Principal.icontabbar.title')+' (' + oTable.getBinding('items').getLength() + ')')
+        } else {
+          oTitle.setText('(0)')
         }
       },
 

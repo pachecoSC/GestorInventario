@@ -6,36 +6,18 @@
 
     <!-- se agrego tabla-->
 
-    <IconTabBar
-				id="iconTabBar"
-				select=".onQuickFilter"
-				expandable="false">
-				<items>
-					<IconTabFilter
-						key="all"
-						showAll="true"
-						count="4"
-						text="oggo"/>
-					<IconTabSeparator/>
-					<IconTabFilter
-						key="inStock"
-						icon="sap-icon://message-success"
-						iconColor="Positive"
-						count="3"
-						text="hola"/>
-				</items>
-
     <content>
     <Table id="idProductsTable"
     growing="true"
     growingScrollToLoad="true"
     mode="MultiSelect"
 		inset="false"
+    updateFinished=".onUpdateFinished"
 		items="{path: 'mProductos>/'}">
       <headerToolbar>
         <OverflowToolbar>
           <content>
-            <Title text="{i18n>title}" level="H2"/>
+            <Title id="tableHeader"  text="{i18n>title}" level="H2"/>
             <ToolbarSpacer />
             <Button type="Emphasized" text="{i18n>button.action.create}" press=".onClick"></Button>
             <SearchField
@@ -110,7 +92,7 @@
           </ColumnListItem>
         </items>
       </Table>
-    </content>
-    </IconTabBar>
+     </content>
+    <!--</IconTabBar> -->
     </Page>
 </mvc:View>

@@ -19,12 +19,12 @@
 				justifyContent="SpaceBetween">
 				<Panel backgroundDesign="Transparent">
 					<ObjectAttribute
-						title="{i18n>Detalle.Panel.1.lable.1}"
+						title="{i18n>Detalle.Panel.1.label.1}"
 						text="{
 							path: 'mDetalle>ProductId',
 							formatter: '.formatter.numberUnit'}"/>
 					<ObjectAttribute
-						title="{i18n>Detalle.Panel.1.lable.2}"
+						title="{i18n>Detalle.Panel.1.label.2}"
 						text="{
 							path: 'mDetalle>/Price',
 							formatter: '.formatter.numberUnit'} {mDetalle>CurrencyCode}"/>
@@ -42,7 +42,7 @@
 							formatter: '.formatter.numberUnit'}">
 					</ObjectNumber>
 					<ObjectStatus
-						text="{i18n>Detalle.Panel.1.lable.3}"
+						text="{i18n>Detalle.Panel.1.label.3}"
 						state="Error"
 						visible="{path:'mDetalle>/Discontinued'}"/>
 					<ProgressIndicator
@@ -61,7 +61,7 @@
 			<l:VerticalLayout width="100%">
 			<Panel
 				backgroundDesign="Transparent"
-				headerText="{i18n>ObjectSupplierTabTitle}">
+				headerText="{i18n>Detalle.Panel.2.title}">
 				<content>
 					<form:SimpleForm
 						minWidth="1024"
@@ -75,21 +75,21 @@
 						columnsL="1"
 						columnsM="1">
 						<form:content>
-							<Label text="{i18n>ObjectSupplierName}"/>
-							<Text text="{Supplier/CompanyName}"/>
-							<Label text="{i18n>ObjectSupplierAddress}"/>
-							<Text text="{Supplier/Address}"/>
-							<Label text="{i18n>ObjectSupplierZipcode} / {i18n>ObjectSupplierCity}"/>
-							<Text text="{Supplier/PostalCode} / {Supplier/City}"/>
-							<Label text="{i18n>ObjectSupplierCountry}"/>
-							<Text text="{Supplier/Country}"/>
+							<Label text="{i18n>Detalle.Panel.2.label.1}"/>
+							<Text text="{mDetalle/Name}"/>
+							<Label text="{i18n>Detalle.Panel.2.label.2}"/>
+							<Text text="{mDetalle>SupplierName}"/>
+							<Label text="{i18n>Detalle.Panel.2.label.3}"/>
+							<Text text="{mDetalle>Width} x {mDetalle>Depth} x {mDetalle>Height} {mDetalle>DimUnit}"/>
+							<Label text="{i18n>Detalle.Panel.2.label.4}"/>
+							<Text text="dato faltante"/>
 						</form:content>
 					</form:SimpleForm>
 				</content>
 			</Panel>
 				<Panel
 					backgroundDesign="Transparent"
-					headerText="{i18n>ObjectCommentsTabTitle}">
+					headerText="{i18n>Detalle.Panel.3.title}">
 					<content>
 
 					</content>

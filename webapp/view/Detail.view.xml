@@ -9,11 +9,9 @@
 	<semantic:SemanticPage
 		id="page"
 		headerPinnable="false"
-		toggleHeaderOnTitleClick="false"
-		busy="{objectView>/busy}"
-		busyIndicatorDelay="{objectView>/delay}">
+		toggleHeaderOnTitleClick="false">
 		<semantic:titleHeading>
-			<Title text="{ProductName}" />
+			<Title text="{mDetalle>Name}" />
 		</semantic:titleHeading>
 		<semantic:headerContent>
 			<FlexBox
@@ -21,15 +19,15 @@
 				justifyContent="SpaceBetween">
 				<Panel backgroundDesign="Transparent">
 					<ObjectAttribute
-						title="{i18n>ObjectProductIdText}"
+						title="{i18n>Detalle.Panel.1.lable.1}"
 						text="{
-							path: 'ProductID',
+							path: 'mDetalle>ProductId',
 							formatter: '.formatter.numberUnit'}"/>
 					<ObjectAttribute
-						title="{i18n>ObjectPriceTitle}"
+						title="{i18n>Detalle.Panel.1.lable.2}"
 						text="{
-							path: 'UnitPrice',
-							formatter: '.formatter.numberUnit'} EUR"/>
+							path: 'mDetalle>/Price',
+							formatter: '.formatter.numberUnit'} {mDetalle>CurrencyCode}"/>
 				</Panel>
 				<Panel backgroundDesign="Transparent">
 					<ObjectNumber
@@ -37,23 +35,23 @@
 						unit="PC"
 						textAlign="End"
 						state="{
-							path: 'UnitsInStock',
+							path: 'mDetalle>/UnitsInStock',
 							formatter: '.formatter.quantityState'}"
 						number="{
-							path: 'UnitsInStock',
+							path: 'mDetalle>/UnitsInStock',
 							formatter: '.formatter.numberUnit'}">
 					</ObjectNumber>
 					<ObjectStatus
-						text="{i18n>ObjectDiscontinuedStatusText}"
+						text="{i18n>Detalle.Panel.1.lable.3}"
 						state="Error"
-						visible="{path:'Discontinued'}"/>
+						visible="{path:'mDetalle>/Discontinued'}"/>
 					<ProgressIndicator
 						width="300px"
-						percentValue="{UnitsInStock}"
-						displayValue="{UnitsInStock}"
+						percentValue="{mDetalle>UnitsInStock}"
+						displayValue="{mDetalle>UnitsInStock}"
 						showValue="true"
 						state="{
-							path: 'UnitsInStock',
+							path: 'mDetalle>/UnitsInStock',
 							formatter: '.formatter.quantityState'}" />
 				</Panel>
 

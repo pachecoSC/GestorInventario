@@ -1,4 +1,4 @@
-var oDetailcontroller
+var oDetailController
 sap.ui.define([
 	"./BaseController",
 	"sap/ui/model/json/JSONModel",
@@ -11,11 +11,12 @@ sap.ui.define([
 	BaseController, JSONModel, History, Formatter, DateFormat, Filter, FilterOperator) {
 	"use strict";
 
-	var oCore, oView;
+	var oCore, oView, mModelLocal;
+	var _oSupplier = [], oId_detalle;
 
 	return BaseController.extend("com.moony.gestorinventario.controller.Detail", {
 
-		Formatter: Formatter,
+		formatter: Formatter,
 
 		/* =========================================================== */
 		/* lifecycle methods                                           */
@@ -26,25 +27,51 @@ sap.ui.define([
 		 * @public
 		 */
 		onInit : function () {
-			// Model used to manipulate control states. The chosen values make sure,
-			// detail page is busy indication immediately so there is no break in
-			// between the busy indication for loading the view's meta data
-			var iOriginalBusyDelay,
-				oViewModel = new JSONModel({
-					busy : true,
-					delay : 0
-				});
+			oDetailController = this;
+			oView = this.getView();
+			oCore = sap.ui.getCore();
+			var that = this;
+			mModelLocal = new sap.ui.model.json.JSONModel();
 
-			this.getRouter().getRoute("RouteDetalle").attachPatternMatched(this._onObjectMatched, this);
+			// oCore.getModel("mSustitutos").setProperty("/", DemoData.bColumns);
+			// this.getRouter().getRoute("RouteDetalle").attachPatternMatched(this._onObjectMatched, this);
 
-			// Store original busy indicator delay, so it can be restored later on
-			iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
-			this.setModel(oViewModel, "detalleView");
-			this.getOwnerComponent().getModel().metadataLoaded().then(function () {
-					// Restore original busy indicator delay for the object view
-					oViewModel.setProperty("/delay", iOriginalBusyDelay);
+			sap.ui.core.UIComponent.getRouterFor(this).attachRouteMatched(function (oEvent) {
+
+				var sRoute = oEvent.getParameter("name");
+
+				if ("RouteDetalle" === sRoute) {
+						if (oEvent.getParameter("arguments").oId && !$.isEmptyObject(oCore.getModel("mProductos").getData())) {
+								oBusyDialog.close();
+
+								var sPathD = oEvent.getParameter("arguments").oId;
+								var sPath = "/" + sPathD;
+								oId_detalle = sPath;
+								var oModel = oCore.getModel('mProductos');
+								var oObject = jQuery.extend({}, oModel.getProperty(sPath));
+								// clonar la data y ocultar los botones
+								_oSupplier = jQuery.extend({}, oModel.getProperty(sPath));
+								console.log("osuplier copia de objeto", _oSupplier)
+
+								// console.log("data path", oObject)
+								mModelLocal.setProperty("/", oObject);
+								oView.setModel(mModelLocal, "mDetalle");
+
+								oView.bindElement({ path: "/", model: "mDetalle" });
+
+								// oDetailController._toggleButtonsAndView(false);
+						}
+						else {
+								alert("No se han enviado argumentos.");
+								that.onNavBack();
+								// Recargar la pagina, pero espera, el modelo se reinicio. Entonces vuelve al 'Home'
+								var oHash = window.location.hash.split("/")
+								window.location.assign(oHash[0]);
+						}
 				}
-			);
+		});
+
+		this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		},
 
 		/* =========================================================== */
@@ -71,101 +98,6 @@ sap.ui.define([
 		/* =========================================================== */
 		/* internal methods                                            */
 		/* =========================================================== */
-
-		/**
-		 * Binds the view to the object path.
-		 * @function
-		 * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
-		 * @private
-		 */
-		_onObjectMatched : function (oEvent) {
-			var sObjectId =  oEvent.getParameter("arguments").oId;
-			this.getModel().metadataLoaded().then( function() {
-				var sObjectPath = this.getModel().createKey("Prod", {
-					PdID :  sObjectId
-				});
-				this._bindView("/" + sObjectPath);
-			}.bind(this));
-		},
-
-		/**
-		 * Binds the view to the object path.
-		 * @function
-		 * @param {string} sObjectPath path to the object to be bound
-		 * @private
-		 */
-		_bindView : function (sObjectPath) {
-			var oViewModel = this.getModel("detalleView"),
-				oDataModel = this.getModel();
-
-			this.getView().bindElement({
-				path: sObjectPath,
-				events: {
-					change: this._onBindingChange.bind(this),
-					dataRequested: function () {
-						oDataModel.metadataLoaded().then(function () {
-							// Busy indicator on view should only be set if metadata is loaded,
-							// otherwise there may be two busy indications next to each other on the
-							// screen. This happens because route matched handler already calls '_bindView'
-							// while metadata is loaded.
-							oViewModel.setProperty("/busy", true);
-						});
-					},
-					dataReceived: function () {
-						oViewModel.setProperty("/busy", false);
-					}
-				}
-			});
-		},
-
-		_onBindingChange : function () {
-			var oView = this.getView(),
-				oViewModel = this.getModel("detalleView"),
-				oElementBinding = oView.getElementBinding();
-
-			// No data for the binding
-			if (!oElementBinding.getBoundContext()) {
-				this.getRouter().getTargets().display("TargetNotFound");
-				return;
-			}
-
-			var oResourceBundle = this.getResourceBundle(),
-				oObject = oView.getBindingContext().getObject(),
-				sObjectId = oObject.ProductID,
-				sObjectName = oObject.ProductName;
-
-			oViewModel.setProperty("/busy", false);
-
-			// Update the comments in the list
-			var oList = this.byId("idCommentsList");
-			var oBinding = oList.getBinding("items");
-			oBinding.filter(new Filter("productID", FilterOperator.EQ, sObjectId));
-		},
-
-		/**
-		 * Updates the model with the user comments on Products.
-		 * @function
-		 * @param {sap.ui.base.Event} oEvent object of the user input
-		 */
-		onPost: function (oEvent) {
-			var oFormat = DateFormat.getDateTimeInstance({style: "medium"});
-			var sDate = oFormat.format(new Date());
-			var oObject = this.getView().getBindingContext().getObject();
-			var sValue = oEvent.getParameter("value");
-			var oEntry = {
-				productID: oObject.ProductID,
-				type: "Comment",
-				date: sDate,
-				comment: sValue
-			};
-			// update model
-			var oFeedbackModel = this.getModel("productFeedback");
-			var aEntries = oFeedbackModel.getData().productComments;
-			aEntries.push(oEntry);
-			oFeedbackModel.setData({
-				productComments : aEntries
-			});
-		}
 
 	});
 

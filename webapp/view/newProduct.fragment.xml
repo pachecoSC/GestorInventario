@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Dialog id="newProducto" title="{i18n>Principal.Dialog.1.nuevo.producto}">
+        <content>
+            <Label text="contenido" />
+        </content>
+        <beginButton>
+            <Button text="registrar" press=".onDialogClose" />
+        </beginButton>
+        <endButton>
+            <Button text="cancelar" press=".onDialogClose" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

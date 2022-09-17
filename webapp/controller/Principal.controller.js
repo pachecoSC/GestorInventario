@@ -8,7 +8,9 @@ sap.ui.define(
     '../model/DemoProductService',
     '../utils/formatter',
     'sap/ui/model/Filter',
-    'sap/ui/model/FilterOperator'
+    'sap/ui/model/FilterOperator',
+    'sap/ui/core/Fragment',
+    'sap/ui/core/syncStyleClass'
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -21,13 +23,16 @@ sap.ui.define(
     DemoProductService,
     Formatter,
     Filter,
-    FilterOperator
+    FilterOperator,
+    Fragment,
+    syncStyleClass
   ) {
     'use strict'
     var oCore
     var oView
-    var prefixId;
-		var oScanResultText;
+    var prefixId
+    // var oScanResultText
+    var searchField
 
     return BaseController.extend('com.moony.gestorinventario.controller.Principal', {
       Formatter: Formatter,
@@ -51,7 +56,8 @@ sap.ui.define(
         } else {
           prefixId = ''
         }
-        oScanResultText = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerResult')
+        // oScanResultText = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerResult')
+        searchField = oView.byId('searchField')
         // fin codigo de barras
 
         // var oModel = sap.ui.getCore().getModel("mProductos");
@@ -110,9 +116,6 @@ sap.ui.define(
         }
       },
 
-      onPressAddProduct: function () {
-        // MessageToast.show('hola mundo')
-      },
       onPress: function (oEvent) {
         // The source is the list item that got pressed
         // this._showObject(oEvent.getSource());
@@ -132,9 +135,11 @@ sap.ui.define(
           MessageToast.show('Scan cancelled', { duration: 1000 })
         } else {
           if (oEvent.getParameter('text')) {
-            oScanResultText.setText(oEvent.getParameter('text'))
+            // oScanResultText.setText(oEvent.getParameter('text'))
+            MessageToast.show('escaneado: ' + oEvent.getParameter('text'))
           } else {
-            oScanResultText.setText('')
+            // oScanResultText.setText('')
+            MessageToast.show('esta vacio')
           }
         }
       },
@@ -152,11 +157,42 @@ sap.ui.define(
         var oScanButton = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerButton')
         if (oScanButton) {
           $(oScanButton.getDomRef()).on('click', function () {
-            oScanResultText.setText('')
+            // oScanResultText.setText('')
+            searchField.setText('')
           })
         }
-      }
+      },
       //fin de metodo de codigo de barras
+      //inicio de funcionalidad de modal
+      onPressAddProduct: function (oEvent) {
+        var oButton = oEvent.getSource(),
+          oView = this.getView()
+
+        if (!this._pDialog) {
+          this._pDialog = Fragment.load({
+            id: oView.getId(),
+            name: 'com.moony.gestorinventario.view.newProduct', //"reassingmanager.view.Dialog",
+            controller: this
+          }).then(function (oDialog) {
+            // oDialog.setModel(oCore.getModel("mSustitutos"));
+            return oDialog;
+          })
+        }
+        this._pDialog.then(
+          function (oDialog) {
+            oDialog.open()
+          }.bind(this)
+        )
+
+        // oDetalleController._toggleButtonsAndView(true);
+      },
+
+
+      onDialogClose: function (oEvent) {
+        var oDialog = oView.byId('newProducto')
+        oDialog.close()
+      }
+      // fin de funcionalidad de modal
     })
   }
 )

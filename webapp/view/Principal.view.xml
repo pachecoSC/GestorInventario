@@ -13,7 +13,7 @@
                             <ToolbarSpacer />
                             <!-- text="{i18n>button.action.create}" -->
                             <ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" dialogTitle="Barcode Scanner Button Sample" />
-                            <Button type="transparent" icon="sap-icon://add-product" press=".onPressAddProduct" ariaLabelledBy="actionButtonLabel" />
+                            <Button id="btnAddProducto" type="Transparent" icon="sap-icon://add-product" press=".onPressAddProduct" ariaLabelledBy="actionButtonLabel" />
                             <SearchField id="searchField" tooltip="{i18n>Principal.SearchTooltip.text}" search=".onSearch" width="auto" />
                         </content>
                     </OverflowToolbar>

@@ -1,98 +1,75 @@
-<mvc:View controllerName="com.moony.gestorinventario.controller.Principal"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
+<mvc:View controllerName="com.moony.gestorinventario.controller.Principal" xmlns:ndc="sap.ndc" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
-    <MessageStrip text="{i18n>message.info.principal}" class="sapUiTinyMargin" />
+        <MessageStrip text="{i18n>message.info.principal}" class="sapUiTinyMargin" />
 
-    <!-- se agrego tabla-->
+        <!-- se agrego tabla-->
 
-    <content>
-    <Table id="idProductsTable"
-    growing="true"
-    growingScrollToLoad="true"
-    mode="MultiSelect"
-		inset="false"
-    updateFinished=".onUpdateFinished"
-		items="{path: 'mProductos>/'}">
-      <headerToolbar>
-        <OverflowToolbar>
-          <content>
-            <Title id="tableHeader"  text="{i18n>title}" level="H2"/>
-            <ToolbarSpacer />
-            <Button type="Emphasized" text="{i18n>button.action.create}" press=".onClick"></Button>
-            <SearchField
-								id="searchField"
-								tooltip="{i18n>Principal.SearchTooltip.text}"
-								search=".onSearch"
-								width="auto">
-							</SearchField>
-          </content>
-        </OverflowToolbar>
-      </headerToolbar>
-      <infoToolbar>
-        <OverflowToolbar>
-          <Label text="{i18m>message.info.table}"/>
-        </OverflowToolbar>
-      </infoToolbar>
-      <columns>
-        <Column
-          width="12em">
-          <Text text="Product" />
-        </Column>
-        <Column
-          minScreenWidth="Tablet"
-          demandPopin="true">
-          <Text text="Supplier" />
-        </Column>
-        <Column
-          minScreenWidth="Desktop"
-          demandPopin="true"
-          hAlign="End">
-          <Text text="Dimensions" />
-        </Column>
-        <Column
-          minScreenWidth="Desktop"
-          demandPopin="true"
-          hAlign="Center">
-          <Text text="Weight" />
-        </Column>
-        <Column
-          hAlign="End">
-          <Text text="Price" />
-        </Column>
-      </columns>
-        <items>
-          <ColumnListItem vAlign="Middle" type="Navigation"
-							press=".onPress">
-            <cells>
-              <ObjectIdentifier
-                title="{mProductos>Name}"/>
-              <Text
-                text="{mProductos>SupplierName}" />
-              <Text
-                text="{mProductos>Width} x {mProductos>Depth} x {mProductos>Height} {mProductos>DimUnit}" />
-              <ObjectNumber
-                number="{mProductos>WeightMeasure}"
-                unit="{mProductos>WeightUnit}"
-                state="{
+        <content>
+            <Table id="idProductsTable" growing="true" growingScrollToLoad="true" mode="MultiSelect" inset="false" updateFinished=".onUpdateFinished" items="{path: 'mProductos>/'}">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title id="tableHeader" text="{i18n>title}" level="H2" />
+                            <ToolbarSpacer />
+                            <!-- text="{i18n>button.action.create}" -->
+                            <ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" dialogTitle="Barcode Scanner Button Sample" />
+                            <Button type="transparent" icon="sap-icon://add-product" press=".onPressAddProduct" ariaLabelledBy="actionButtonLabel" />
+                            <SearchField id="searchField" tooltip="{i18n>Principal.SearchTooltip.text}" search=".onSearch" width="auto" />
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <infoToolbar>
+                    <OverflowToolbar>
+                        <Label text="{i18m>message.info.table}" />
+                    </OverflowToolbar>
+                </infoToolbar>
+                <columns>
+                    <Column width="12em">
+                        <Text text="Product" />
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="Supplier" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+                        <Text text="Dimensions" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+                        <Text text="Weight" />
+                    </Column>
+                    <Column hAlign="End">
+                        <Text text="Price" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle" type="Navigation" press=".onPress">
+                        <cells>
+                            <ObjectIdentifier title="{mProductos>Name}" />
+                            <Text text="{mProductos>SupplierName}" />
+                            <Text text="{mProductos>Width} x {mProductos>Depth} x {mProductos>Height} {mProductos>DimUnit}" />
+                            <ObjectNumber
+                                number="{mProductos>WeightMeasure}"
+                                unit="{mProductos>WeightUnit}"
+                                state="{
                   parts: [
                     {path: 'mProductos>WeightMeasure'},
                     {path: 'mProductos>WeightUnit'}
                   ],
                   formatter: '.Formatter.weightState'
-                }" />
-              <ObjectNumber
-                  number="{
+                }"
+                            />
+                            <ObjectNumber
+                                number="{
                     parts:[{path:'mProductos>Price'},{path:'mProductos>CurrencyCode'}],
                     type: 'sap.ui.model.type.Currency',
                     formatOptions: {showMeasure: false}
                   }"
-                  unit="{mProductos>CurrencyCode}" />
-            </cells>
-          </ColumnListItem>
-        </items>
-      </Table>
-     </content>
-    <!--</IconTabBar> -->
+                                unit="{mProductos>CurrencyCode}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+        <!--</IconTabBar> -->
     </Page>
 </mvc:View>

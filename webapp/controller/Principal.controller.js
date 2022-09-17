@@ -26,6 +26,8 @@ sap.ui.define(
     'use strict'
     var oCore
     var oView
+    var prefixId;
+		var oScanResultText;
 
     return BaseController.extend('com.moony.gestorinventario.controller.Principal', {
       Formatter: Formatter,
@@ -41,6 +43,16 @@ sap.ui.define(
         oCore.getModel('mProductos').setProperty('/', DemoProductService)
 
         this.oRouter = sap.ui.core.UIComponent.getRouterFor(this)
+
+        // codigo para funcionalidad del codigo de barra
+        prefixId = this.createId()
+        if (prefixId) {
+          prefixId = prefixId.split('--')[0] + '--'
+        } else {
+          prefixId = ''
+        }
+        oScanResultText = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerResult')
+        // fin codigo de barras
 
         // var oModel = sap.ui.getCore().getModel("mProductos");
         // oModel.refresh()
@@ -82,19 +94,24 @@ sap.ui.define(
       },
 
       onUpdateFinished: function (oEvent) {
-        var oTable = oEvent.getSource();
-        var iTotalItems = oEvent.getParameter("total");
+        var oTable = oEvent.getSource()
+        var iTotalItems = oEvent.getParameter('total')
         var oTitle = oView.byId('tableHeader')
 
-        if (iTotalItems && oTable.getBinding("items").isLengthFinal()) {
-          oTitle.setText(this.getResourceBundle().getText('Principal.icontabbar.title')+' (' + oTable.getBinding('items').getLength() + ')')
+        if (iTotalItems && oTable.getBinding('items').isLengthFinal()) {
+          oTitle.setText(
+            this.getResourceBundle().getText('Principal.icontabbar.title') +
+              ' (' +
+              oTable.getBinding('items').getLength() +
+              ')'
+          )
         } else {
           oTitle.setText('(0)')
         }
       },
 
-      onClick: function () {
-        MessageToast.show('hola mundo')
+      onPressAddProduct: function () {
+        // MessageToast.show('hola mundo')
       },
       onPress: function (oEvent) {
         // The source is the list item that got pressed
@@ -108,7 +125,38 @@ sap.ui.define(
         that.getRouter().navTo('RouteDetalle', {
           oId: separadoSpath[1]
         })
+      },
+      // incio de metodos del codigo de barras
+      onScanSuccess: function (oEvent) {
+        if (oEvent.getParameter('cancelled')) {
+          MessageToast.show('Scan cancelled', { duration: 1000 })
+        } else {
+          if (oEvent.getParameter('text')) {
+            oScanResultText.setText(oEvent.getParameter('text'))
+          } else {
+            oScanResultText.setText('')
+          }
+        }
+      },
+
+      onScanError: function (oEvent) {
+        MessageToast.show('Scan failed: ' + oEvent, { duration: 1000 })
+      },
+
+      onScanLiveupdate: function (oEvent) {
+        // User can implement the validation about inputting value
+      },
+
+      onAfterRendering: function () {
+        // Reset the scan result
+        var oScanButton = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerButton')
+        if (oScanButton) {
+          $(oScanButton.getDomRef()).on('click', function () {
+            oScanResultText.setText('')
+          })
+        }
       }
+      //fin de metodo de codigo de barras
     })
   }
 )

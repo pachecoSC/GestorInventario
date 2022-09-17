@@ -1,101 +1,64 @@
-<mvc:View
-	controllerName="com.moony.gestorinventario.controller.Detail"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.f.semantic"
-	xmlns:form="sap.ui.layout.form"
-	xmlns:l="sap.ui.layout">
-
-	<semantic:SemanticPage
-		id="page"
-		headerPinnable="false"
-		toggleHeaderOnTitleClick="false">
-		<semantic:titleHeading>
-			<Title text="{mDetalle>Name}" />
-		</semantic:titleHeading>
-		<semantic:headerContent>
-			<FlexBox
-				alignItems="Start"
-				justifyContent="SpaceBetween">
-				<Panel backgroundDesign="Transparent">
-					<ObjectAttribute
-						title="{i18n>Detalle.Panel.1.label.1}"
-						text="{
+<mvc:View controllerName="com.moony.gestorinventario.controller.Detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+    <semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
+        <semantic:titleHeading>
+            <Title text="{mDetalle>Name}" />
+        </semantic:titleHeading>
+        <semantic:headerContent>
+            <FlexBox alignItems="Start" justifyContent="SpaceBetween">
+                <Panel backgroundDesign="Transparent">
+                    <ObjectAttribute title="{i18n>Detalle.Panel.1.label.1}" text="{
 							path: 'mDetalle>ProductId',
-							formatter: '.formatter.numberUnit'}"/>
-					<ObjectAttribute
-						title="{i18n>Detalle.Panel.1.label.2}"
-						text="{
+							formatter: '.formatter.numberUnit'}" />
+                    <ObjectAttribute title="{i18n>Detalle.Panel.1.label.2}" text="{
 							path: 'mDetalle>/Price',
-							formatter: '.formatter.numberUnit'} {mDetalle>CurrencyCode}"/>
-				</Panel>
-				<Panel backgroundDesign="Transparent">
-					<ObjectNumber
-						id="objectHeader"
-						unit="PC"
-						textAlign="End"
-						state="{
+							formatter: '.formatter.numberUnit'} {mDetalle>CurrencyCode}" />
+                </Panel>
+                <Panel backgroundDesign="Transparent">
+                    <ObjectNumber id="objectHeader" unit="PC" textAlign="End" state="{
 							path: 'mDetalle>/UnitsInStock',
-							formatter: '.formatter.quantityState'}"
-						number="{
+							formatter: '.formatter.quantityState'}" number="{
 							path: 'mDetalle>/UnitsInStock',
-							formatter: '.formatter.numberUnit'}">
-					</ObjectNumber>
-					<ObjectStatus
-						text="{i18n>Detalle.Panel.1.label.3}"
-						state="Error"
-						visible="{path:'mDetalle>/Discontinued'}"/>
-					<ProgressIndicator
-						width="300px"
-						percentValue="{mDetalle>UnitsInStock}"
-						displayValue="{mDetalle>UnitsInStock}"
-						showValue="true"
-						state="{
+							formatter: '.formatter.numberUnit'}" />
+                    <ObjectStatus text="{i18n>Detalle.Panel.1.label.3}" state="Error" visible="{path:'mDetalle>/Discontinued'}" />
+                    <ProgressIndicator width="300px" percentValue="{mDetalle>UnitsInStock}" displayValue="{mDetalle>UnitsInStock}" showValue="true" state="{
 							path: 'mDetalle>/UnitsInStock',
 							formatter: '.formatter.quantityState'}" />
-				</Panel>
-
-			</FlexBox>
-		</semantic:headerContent>
-		<semantic:content>
-			<l:VerticalLayout width="100%">
-			<Panel
-				backgroundDesign="Transparent"
-				headerText="{i18n>Detalle.Panel.2.title}">
-				<content>
-					<form:SimpleForm
-						minWidth="1024"
-						maxContainerCols="2"
-						editable="false"
-						layout="ResponsiveGridLayout"
-						labelSpanL="3"
-						labelSpanM="3"
-						emptySpanL="4"
-						emptySpanM="4"
-						columnsL="1"
-						columnsM="1">
-						<form:content>
-							<Label text="{i18n>Detalle.Panel.2.label.1}"/>
-							<Text text="{mDetalle/Name}"/>
-							<Label text="{i18n>Detalle.Panel.2.label.2}"/>
-							<Text text="{mDetalle>SupplierName}"/>
-							<Label text="{i18n>Detalle.Panel.2.label.3}"/>
-							<Text text="{mDetalle>Width} x {mDetalle>Depth} x {mDetalle>Height} {mDetalle>DimUnit}"/>
-							<Label text="{i18n>Detalle.Panel.2.label.4}"/>
-							<Text text="dato faltante"/>
-						</form:content>
-					</form:SimpleForm>
-				</content>
-			</Panel>
-				<Panel
-					backgroundDesign="Transparent"
-					headerText="{i18n>Detalle.Panel.3.title}">
-					<content>
-
-					</content>
-				</Panel>
-			</l:VerticalLayout>
-		</semantic:content>
-
-	</semantic:SemanticPage>
+                </Panel>
+            </FlexBox>
+        </semantic:headerContent>
+        <semantic:content>
+            <l:VerticalLayout width="100%">
+                <Panel backgroundDesign="Transparent" headerText="{i18n>Detalle.Panel.2.title}">
+                    <content>
+                        <form:SimpleForm minWidth="1024" maxContainerCols="2" editable="false" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+                            <form:content>
+                                <Label text="{i18n>Detalle.Panel.2.label.1}" />
+                                <Text text="{mDetalle/Name}" />
+                                <Label text="{i18n>Detalle.Panel.2.label.2}" />
+                                <Text text="{mDetalle>SupplierName}" />
+                                <Label text="{i18n>Detalle.Panel.2.label.3}" />
+                                <Text text="{mDetalle>Width} x {mDetalle>Depth} x {mDetalle>Height} {mDetalle>DimUnit}" />
+                                <Label text="{i18n>Detalle.Panel.2.label.4}" />
+                                <Text text="dato faltante" />
+                            </form:content>
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+                <Panel backgroundDesign="Transparent" headerText="{i18n>Detalle.Panel.3.title}">
+                    <content>
+                        <VBox class="sapUiSmallMarginTopBottom sapUiLargeMarginBeginEnd">
+                            <HBox justifyContent="SpaceBetween">
+                                <Text text="{i18n>Detalle.Panel.3.label.1}" class="sapUiSmallMarginBottom" />
+                                <ToolbarSpacer />
+                                <Button type="Emphasized" text="{i18n>button.action.imprimir}" press=".onPressImprimir" />
+                            </HBox>
+                            <HBox justifyContent="Center">
+                                <Image src="../assets/150.png" width="{/imageWidth}" />
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+            </l:VerticalLayout>
+        </semantic:content>
+    </semantic:SemanticPage>
 </mvc:View>

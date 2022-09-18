@@ -175,7 +175,7 @@ sap.ui.define(
             controller: this
           }).then(function (oDialog) {
             // oDialog.setModel(oCore.getModel("mSustitutos"));
-            return oDialog;
+            return oDialog
           })
         }
         this._pDialog.then(
@@ -186,11 +186,24 @@ sap.ui.define(
 
         // oDetalleController._toggleButtonsAndView(true);
       },
-
-
       onDialogClose: function (oEvent) {
         var oDialog = oView.byId('newProducto')
         oDialog.close()
+      },
+      onSaveProductNew: function (oEvent) {
+        // obtener todos los valores del formulario
+        var oParams = {
+          nombre: oView.byId('txtNombre').getValue(),
+          calle: oView.byId('txtCalle').getValue(),
+          ncasa: oView.byId('txtNumeroCasa').getValue()
+        }
+
+        console.log(oParams)
+        var oDialog = oView.byId('newProducto')
+        // limpiar el modelo
+        MessageToast.show("parametros guardados en consola")
+        oDialog.close()
+        // eventos posibles: refrescar la pagina, volver a consumir listado o ingresar al detalle
       }
       // fin de funcionalidad de modal
     })

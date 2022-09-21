@@ -1,4 +1,5 @@
 var oPrincipalController
+
 sap.ui.define(
   [
     './BaseController',
@@ -62,6 +63,9 @@ sap.ui.define(
 
         // var oModel = sap.ui.getCore().getModel("mProductos");
         // oModel.refresh()
+
+        //obtener datos de db con axios
+        oPrincipalController.getLista()
       },
 
       onNavBack: function () {
@@ -201,11 +205,30 @@ sap.ui.define(
         console.log(oParams)
         var oDialog = oView.byId('newProducto')
         // limpiar el modelo
-        MessageToast.show("parametros guardados en consola")
+        MessageToast.show('parametros guardados en consola')
         oDialog.close()
         // eventos posibles: refrescar la pagina, volver a consumir listado o ingresar al detalle
-      }
+      },
       // fin de funcionalidad de modal
+
+      /**inicio de metodos api */
+      getLista: function () {
+        var sUrl = 'http://127.0.0.1:4000/gestor/'
+        $.ajaxSetup({
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          }
+        })
+
+        $.get(sUrl)
+          .done(function (result) {
+            console.log("result",result)
+          })
+          .fail(function (err) {
+            console.error(err)
+          })
+      }
     })
   }
 )

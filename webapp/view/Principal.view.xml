@@ -25,46 +25,65 @@
                 </infoToolbar>
                 <columns>
                     <Column width="12em">
-                        <Text text="Product" />
+                        <Text text="Codigo inventario" />
                     </Column>
                     <Column minScreenWidth="Tablet" demandPopin="true">
-                        <Text text="Supplier" />
+                        <Text text="{i18n>nombre_equipo}" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
-                        <Text text="Dimensions" />
+                        <Text text="fecha inventario" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+                        <Text text="estado" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+                        <Text text="marca_equipo" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+                        <Text text="email" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
-                        <Text text="Weight" />
+                        <Text text="proveedor" />
                     </Column>
                     <Column hAlign="End">
-                        <Text text="Price" />
+                        <Text text="serie del equipo" />
                     </Column>
                 </columns>
                 <items>
                     <ColumnListItem vAlign="Middle" type="Navigation" press=".onPress">
                         <cells>
-                            <ObjectIdentifier title="{mProductos>Name}" />
-                            <Text text="{mProductos>SupplierName}" />
-                            <Text text="{mProductos>Width} x {mProductos>Depth} x {mProductos>Height} {mProductos>DimUnit}" />
-                            <ObjectNumber
+                            <ObjectIdentifier title="{mProductos>codigo_inventario}" />
+                            <Text text="{mProductos>nombre_equipo}" />
+                            <!-- <Text text="{mProductos>fecha_inventario}" /> -->
+                            <Text text="{ path: 'mProductos>fecha_inventario' ,
+										formatter: '.Formatter.formatteDateToSAPTemplate'}" />
+                            <!-- <Text text="{mProductos>estado}" /> -->
+                            <ObjectStatus class="sapUiSmallMarginBottom" text="{mProductos>estado}"
+                            state="{path: 'mProductos>estado', formatter: '.Formatter.DispositivoState'}" />
+                            <Text text="{mProductos>marca_equipo}" />
+                            <Text text="{mProductos>email}" />
+                            <Text text="{mProductos>proveedor}" />
+                            <Text text="{mProductos>serie_equipo}" />
+                            <!-- <Text text="{mProductos>Width} x {mProductos>Depth} x {mProductos>Height} {mProductos>DimUnit}" /> -->
+                            <!-- <ObjectNumber
                                 number="{mProductos>WeightMeasure}"
                                 unit="{mProductos>WeightUnit}"
                                 state="{
-                  parts: [
-                    {path: 'mProductos>WeightMeasure'},
-                    {path: 'mProductos>WeightUnit'}
-                  ],
-                  formatter: '.Formatter.weightState'
-                }"
+                                    parts: [
+                                    {path: 'mProductos>WeightMeasure'},
+                                    {path: 'mProductos>WeightUnit'}
+                                    ],
+                                    formatter: '.Formatter.weightState'
+                                }"
                             />
                             <ObjectNumber
                                 number="{
-                    parts:[{path:'mProductos>Price'},{path:'mProductos>CurrencyCode'}],
-                    type: 'sap.ui.model.type.Currency',
-                    formatOptions: {showMeasure: false}
-                  }"
+                                    parts:[{path:'mProductos>Price'},{path:'mProductos>CurrencyCode'}],
+                                    type: 'sap.ui.model.type.Currency',
+                                    formatOptions: {showMeasure: false}
+                                }"
                                 unit="{mProductos>CurrencyCode}"
-                            />
+                            /> -->
                         </cells>
                     </ColumnListItem>
                 </items>

@@ -3,6 +3,7 @@ var oPrincipalController
 sap.ui.define(
   [
     './BaseController',
+    'sap/m/MessageBox',
     'sap/m/MessageToast',
     'sap/ui/Device',
     'sap/ui/model/json/JSONModel',
@@ -18,6 +19,7 @@ sap.ui.define(
    */
   function (
     BaseController,
+    MessageBox,
     MessageToast,
     Device,
     JSONModel,
@@ -46,8 +48,6 @@ sap.ui.define(
         oCore = sap.ui.getCore()
         oPrincipalController = this
 
-        oCore.getModel('mProductos').setProperty('/', DemoProductService)
-
         this.oRouter = sap.ui.core.UIComponent.getRouterFor(this)
 
         // codigo para funcionalidad del codigo de barra
@@ -64,8 +64,12 @@ sap.ui.define(
         // var oModel = sap.ui.getCore().getModel("mProductos");
         // oModel.refresh()
 
-        //obtener datos de db con axios
-        oPrincipalController.getLista()
+        //obtener datos de db con ajax
+        function f_bind_model(data) {
+          // oCore.getModel('mProductos').setProperty('/', DemoProductService)
+          oCore.getModel('mProductos').setProperty('/', data)
+        }
+        oPrincipalController._ongetLista(f_bind_model)
       },
 
       onNavBack: function () {
@@ -193,27 +197,35 @@ sap.ui.define(
       onDialogClose: function (oEvent) {
         var oDialog = oView.byId('newProducto')
         oDialog.close()
+        oPrincipalController.f_clearInputs()
       },
       onSaveProductNew: function (oEvent) {
         // obtener todos los valores del formulario
         var oParams = {
-          nombre: oView.byId('txtNombre').getValue(),
-          calle: oView.byId('txtCalle').getValue(),
-          ncasa: oView.byId('txtNumeroCasa').getValue()
+          codigo_inventario: oView.byId('txtCodInventario').getValue(),
+          estado: oView.byId('txtEstado').getValue(),
+          proveedor: oView.byId('txtProveedor').getValue(),
+          id_empleado: oView.byId('selectEmpleado').getSelectedKey(),
+          id_equipo: oView.byId('selectEquipo').getSelectedKey()
         }
 
-        console.log(oParams)
+        // console.log(oParams)
+        function f_next_save_suminsitro(result) {
+          // limpiar el modelo
+          oPrincipalController.f_clearInputs()
+          MessageToast.show(result.msg)
+          // eventos posibles: refrescar la pagina, volver a consumir listado o ingresar al detalle
+        }
+        oPrincipalController._onsetSuministro(oParams, f_next_save_suminsitro)
+
         var oDialog = oView.byId('newProducto')
-        // limpiar el modelo
-        MessageToast.show('parametros guardados en consola')
         oDialog.close()
-        // eventos posibles: refrescar la pagina, volver a consumir listado o ingresar al detalle
       },
       // fin de funcionalidad de modal
 
       /**inicio de metodos api */
-      getLista: function () {
-        var sUrl = 'http://127.0.0.1:4000/gestor/'
+      _ongetLista: function (callback) {
+        var sUrl = 'http://127.0.0.1:4000/api-gestor/'
         $.ajaxSetup({
           headers: {
             'Content-Type': 'application/json',
@@ -222,13 +234,110 @@ sap.ui.define(
         })
 
         $.get(sUrl)
-          .done(function (result) {
-            console.log("result",result)
+          .done(function (res) {
+            // console.log("result", result)
+            if (res.body.cod_result === 1) {
+              var data = res.body.result //JSON.parse(result)
+              if (callback) {
+                callback(data)
+              }
+            } else {
+              // en caso es 0 recorre este camino
+              var oMessage = res.body.msg
+              oPrincipalController.f_showMessage('WARNING', oMessage)
+            }
           })
           .fail(function (err) {
             console.error(err)
+            oPrincipalController._onErrorWebService()
+            oBusyDialog.close()
           })
+      },
+      _onsetSuministro: function (oParams, callback) {
+        var sUrl = 'http://127.0.0.1:4000/api-gestor/add'
+        oParams = JSON.stringify(oParams)
+
+        $.ajaxSetup({
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+        $.post(sUrl, oParams)
+          .done(function (res) {
+            console.log('result', res)
+            if (res.body.cod_result === 1) {
+              var data = res.body //JSON.parse(result)
+              if (callback) {
+                callback(data)
+              }
+            } else {
+              // en caso es 0 recorre este camino
+              var oMessage = res.body.msg
+              oPrincipalController.f_showMessage('WARNING', oMessage)
+            }
+          })
+          .fail(function (err) {
+            console.error(err)
+            oPrincipalController._onErrorWebService()
+            oBusyDialog.close()
+          })
+      },
+      //fin metodos api
+      // metodos genericos
+      _onErrorWebService: function () {
+        var bCompact = !!this.getView().$().closest('.sapUiSizeCompact').length
+        MessageBox.error(
+          oPrincipalController.getResourceBundle().getText('Message.Error.TextInfo1.Text'),
+          {
+            styleClass: bCompact ? 'sapUiSizeCompact' : ''
+          }
+        )
+        sap.ui.core.BusyIndicator.hide()
+      },
+
+      f_showMessage: function (oIcon, oMessage, oTitle, callback, oDetails) {
+        sap.m.MessageBox.show(oMessage, {
+          icon: oIcon,
+          styleClass: 'ResponsiveDialog',
+          details: oDetails,
+          title:
+            oTitle == undefined
+              ? oPrincipalController.getResourceBundle().getText('Messagedialog.title1')
+              : oTitle,
+          actions: [sap.m.MessageBox.Action.OK],
+          onClose: function (oAction) {
+            if (callback) callback()
+          }
+        })
+      },
+      f_showMessage_Cust: function (oIcon, oMessage, oTitle, callback, oDetails) {
+        sap.m.MessageBox.show(oMessage, {
+          icon: oIcon,
+          styleClass: 'ResponsiveDialog',
+          details: oDetails,
+          title:
+            oTitle == undefined
+              ? oPrincipalController.getResourceBundle().getText('appTitle')
+              : oTitle,
+          actions: ['Salir'],
+          emphasizedAction: 'Salir',
+          onClose: function (oAction) {
+            if (callback) callback()
+          }
+        })
+      },
+      getResourceBundle: function () {
+        return this.getOwnerComponent().getModel('i18n').getResourceBundle()
+      },
+      f_clearInputs: function () {
+        oView.byId('txtCodInventario').setValue('')
+        oView.byId('txtEstado').setValue('')
+        oView.byId('txtProveedor').setValue('')
+        oView.byId('selectEmpleado').clearSelection()
+        oView.byId('selectEquipo').clearSelection()
       }
+      // fin metodos genericos
     })
   }
 )

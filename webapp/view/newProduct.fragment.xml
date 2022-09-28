@@ -10,45 +10,48 @@
                     <f:formContainers>
                         <f:FormContainer title="datos de producto">
                             <f:formElements>
-                                <f:FormElement label="Nombre">
+                                <f:FormElement label="Codigo inventario">
                                     <f:fields>
-                                        <Input placeholder="ingresar nombre" id="txtNombre" ariaLabelledBy="suggestionsInputLabel" />
+                                        <Input placeholder="ingresar codigo inventario" id="txtCodInventario"
+                                        maxLength='10'
+                                        ariaLabelledBy="suggestionsInputLabel" />
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="Street">
+                                <f:FormElement label="Estado">
                                     <f:fields>
-                                        <Input placeholder="ingresar calle" id="txtCalle" />
-                                        <Input placeholder="ingresar numero" id="txtNumeroCasa">
-                                            <layoutData>
-                                                <l:GridData span="XL2 L2 M2 S4" />
-                                            </layoutData>
-                                        </Input>
+                                        <Input placeholder="ingresar estado" id="txtEstado" />
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="ZIP Code/City">
+                                <f:FormElement label="Proveedor">
                                     <f:fields>
-                                        <Input value="{ZIPCode}">
-                                            <layoutData>
-                                                <l:GridData span="XL2 L2 M2 S4" />
-                                            </layoutData>
-                                        </Input>
-                                        <Input value="{City}" />
+                                        <Input placeholder="ingresar proveedor" id="txtProveedor" />
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="Country">
+                                <f:FormElement label="Empleado">
                                     <f:fields>
-                                        <Select id="country" selectedKey="{Country}">
+                                        <Select id="selectEmpleado" selectedKey="1">
                                             <items>
-                                                <core:Item text="England" key="England" />
-                                                <core:Item text="Germany" key="Germany" />
-                                                <core:Item text="USA" key="USA" />
+                                                <core:Item text="empleado 1" key="1" />
+                                                <core:Item text="empleadp 2" key="2" />
+                                                <core:Item text="empleado 3" key="3" />
+                                            </items>
+                                        </Select>
+                                    </f:fields>
+                                </f:FormElement>
+                                <f:FormElement label="Equipo">
+                                    <f:fields>
+                                        <Select id="selectEquipo" selectedKey="1">
+                                            <items>
+                                                <core:Item text="equipo 1" key="1" />
+                                                <core:Item text="equipo 2" key="2" />
+                                                <core:Item text="equipo 3" key="3" />
                                             </items>
                                         </Select>
                                     </f:fields>
                                 </f:FormElement>
                             </f:formElements>
                         </f:FormContainer>
-                        <f:FormContainer title="Contact">
+                        <!-- <f:FormContainer title="Contact">
                             <f:formElements>
                                 <f:FormElement label="Web">
                                     <f:fields>
@@ -90,7 +93,7 @@
                                     </f:fields>
                                 </f:FormElement>
                             </f:formElements>
-                        </f:FormContainer>
+                        </f:FormContainer> -->
                     </f:formContainers>
                 </f:Form>
             </VBox>

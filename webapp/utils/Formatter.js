@@ -33,6 +33,20 @@ sap.ui.define(
         }
       },
 
+      /** estado operativo e inoperativo
+       *
+       * @param {*} sValue
+       * @returns
+       */ DispositivoState: function (state) {
+        if (state === 'operativo') {
+          return 'Success'
+        } else if (state === 'inoperativo') {
+          return 'Error'
+        } else {
+          return 'Warning'
+        }
+      },
+
       /**
        * Rounds the number unit value to 2 digits
        * @public
@@ -73,6 +87,16 @@ sap.ui.define(
         }
 
         return sCount
+      },
+      /**
+       * dar formato a la fecha
+       */
+      formatteDateToSAPTemplate: function (sDateWithoutFormat) {
+        var oDateSplit = sDateWithoutFormat.split('T')
+        var oDate = oDateSplit[0].split('-') //dias mes año
+        var oTime = oDateSplit[1].split('.') //horas
+        var oFormattedDate = oDate[2] + '.' + oDate[1] + '.' + oDate[0] + ' ' + oTime[0]
+        return oFormattedDate
       }
     }
 

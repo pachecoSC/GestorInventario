@@ -34,7 +34,7 @@ sap.ui.define(
     var oCore
     var oView
     var prefixId
-    // var oScanResultText
+    var oScanResultText
     var searchField
 
     return BaseController.extend('com.moony.gestorinventario.controller.Principal', {
@@ -88,7 +88,7 @@ sap.ui.define(
           var sQuery = oEvent.getParameter('query')
 
           if (sQuery && sQuery.length > 0) {
-            aTableSearchState = [new Filter('Name', FilterOperator.Contains, sQuery)]
+            aTableSearchState = [new Filter('codigo_inventario', FilterOperator.Contains, sQuery)]
           }
           this._applySearch(aTableSearchState)
         }
@@ -145,6 +145,8 @@ sap.ui.define(
           if (oEvent.getParameter('text')) {
             // oScanResultText.setText(oEvent.getParameter('text'))
             MessageToast.show('escaneado: ' + oEvent.getParameter('text'))
+            // oView.byId("searchField").setText(oEvent.getParameter('text'))
+            oScanResultText=oEvent.getParameter('text')
           } else {
             // oScanResultText.setText('')
             MessageToast.show('esta vacio')
@@ -166,7 +168,7 @@ sap.ui.define(
         if (oScanButton) {
           $(oScanButton.getDomRef()).on('click', function () {
             // oScanResultText.setText('')
-            searchField.setText('')
+            searchField.setText(oScanResultText)
           })
         }
       },

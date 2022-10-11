@@ -53,7 +53,7 @@
                                 <Button type="Emphasized" text="{i18n>button.action.imprimir}" press=".onPressImprimir" />
                             </HBox>
                             <HBox justifyContent="Center">
-                                <Image src="../assets/150.png" width="{/imageWidth}" />
+                                <Image id="codeQRDetail"  width="{/imageWidth}" />
                             </HBox>
                         </VBox>
                     </content>

@@ -1,33 +1,30 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-    <Dialog id="newProducto" title="Nuevo Producto">
+    <Dialog id="newProducto" title="{i18n>Principal.Dialog.1.nuevo.producto}">
         <content>
             <VBox class="sapUiSmallMargin">
                 <f:Form id="FormChange480_Trial" editable="true">
-
                     <f:layout>
                         <f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false" />
                     </f:layout>
                     <f:formContainers>
-                        <f:FormContainer title="datos de producto">
+                        <f:FormContainer title="{i18n>Principal.Dialog.1.seccion.1.title}">
                             <f:formElements>
-                                <f:FormElement label="Codigo inventario">
+                                <f:FormElement label="{i18n>Principal.Dialog.1.seccion.1.label.1}">
                                     <f:fields>
-                                        <Input placeholder="ingresar codigo inventario" id="txtCodInventario"
-                                        maxLength='10'
-                                        ariaLabelledBy="suggestionsInputLabel" />
+                                        <Input placeholder="{i18n>Principal.Dialog.1.seccion.1.label.1.placeholder}" id="txtCodInventario" maxLength='10' ariaLabelledBy="suggestionsInputLabel" />
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="Estado">
+                                <f:FormElement label="{i18n>Principal.Dialog.1.seccion.1.label.2}">
                                     <f:fields>
-                                        <Input placeholder="ingresar estado" id="txtEstado" />
+                                        <Input placeholder="{i18n>Principal.Dialog.1.seccion.1.label.2..placeholder}" id="txtEstado" />
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="Proveedor">
+                                <f:FormElement label="{i18n>Principal.Dialog.1.seccion.1.label.3}">
                                     <f:fields>
-                                        <Input placeholder="ingresar proveedor" id="txtProveedor" />
+                                        <Input placeholder="{i18n>Principal.Dialog.1.seccion.1.label.3.placeholder}" id="txtProveedor" />
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="Empleado">
+                                <f:FormElement label="{i18n>Principal.Dialog.1.seccion.1.label.4}">
                                     <f:fields>
                                         <Select id="selectEmpleado" selectedKey="1">
                                             <items>
@@ -38,7 +35,7 @@
                                         </Select>
                                     </f:fields>
                                 </f:FormElement>
-                                <f:FormElement label="Equipo">
+                                <f:FormElement label="{i18n>Principal.Dialog.1.seccion.1.label.5}">
                                     <f:fields>
                                         <Select id="selectEquipo" selectedKey="1">
                                             <items>
@@ -99,10 +96,10 @@
             </VBox>
         </content>
         <beginButton>
-            <Button text="registrar" press=".onSaveProductNew" />
+            <Button text="{i18n>Principal.Dialog.1.seccion.1.button.1}" press=".onSaveProductNew" />
         </beginButton>
         <endButton>
-            <Button text="cancelar" press=".onDialogClose" />
+            <Button text="{i18n>Principal.Dialog.1.seccion.1.button.2}" press=".onDialogClose" />
         </endButton>
     </Dialog>
 </core:FragmentDefinition>

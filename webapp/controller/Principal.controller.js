@@ -65,7 +65,7 @@ sap.ui.define(
         // oModel.refresh()
 
         //obtener datos de db con ajax
-        function f_bind_model(data) {
+        function f_bind_model (data) {
           // oCore.getModel('mProductos').setProperty('/', DemoProductService)
           oCore.getModel('mProductos').setProperty('/', data)
         }
@@ -115,9 +115,9 @@ sap.ui.define(
         if (iTotalItems && oTable.getBinding('items').isLengthFinal()) {
           oTitle.setText(
             this.getResourceBundle().getText('Principal.icontabbar.title') +
-              ' (' +
-              oTable.getBinding('items').getLength() +
-              ')'
+            ' (' +
+            oTable.getBinding('items').getLength() +
+            ')'
           )
         } else {
           oTitle.setText('(0)')
@@ -146,7 +146,7 @@ sap.ui.define(
             // oScanResultText.setText(oEvent.getParameter('text'))
             MessageToast.show('escaneado: ' + oEvent.getParameter('text'))
             // oView.byId("searchField").setText(oEvent.getParameter('text'))
-            oScanResultText=oEvent.getParameter('text')
+            oScanResultText = oEvent.getParameter('text')
           } else {
             // oScanResultText.setText('')
             MessageToast.show('esta vacio')
@@ -185,6 +185,12 @@ sap.ui.define(
             controller: this
           }).then(function (oDialog) {
             // oDialog.setModel(oCore.getModel("mSustitutos"));
+            //necesario para que reconosca los i18n
+            var i18n = new sap.ui.model.resource.ResourceModel({
+              bundleName: "com.moony.gestorinventario.i18n.i18n"
+            });
+            oDialog.setModel(i18n, "i18n");
+            //fin necesario para reconocer i18n
             return oDialog
           })
         }
@@ -212,7 +218,7 @@ sap.ui.define(
         }
 
         // console.log(oParams)
-        function f_next_save_suminsitro(result) {
+        function f_next_save_suminsitro (result) {
           // limpiar el modelo
           oPrincipalController.f_clearInputs()
           MessageToast.show(result.msg)

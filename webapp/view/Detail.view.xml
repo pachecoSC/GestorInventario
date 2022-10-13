@@ -1,17 +1,15 @@
-<mvc:View controllerName="com.moony.gestorinventario.controller.Detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+<mvc:View controllerName="com.moony.gestorinventario.controller.Detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
     <semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
         <semantic:titleHeading>
-            <Title text="{mDetalle>Name}" />
+            <Title text="{mDetalle>nombre_equipo}" />
         </semantic:titleHeading>
         <semantic:headerContent>
             <FlexBox alignItems="Start" justifyContent="SpaceBetween">
                 <Panel backgroundDesign="Transparent">
                     <ObjectAttribute title="{i18n>Detalle.Panel.1.label.1}" text="{
-							path: 'mDetalle>ProductId',
+							path: 'mDetalle>codigo_inventario',
 							formatter: '.formatter.numberUnit'}" />
-                    <ObjectAttribute title="{i18n>Detalle.Panel.1.label.2}" text="{
-							path: 'mDetalle>/Price',
-							formatter: '.formatter.numberUnit'} {mDetalle>CurrencyCode}" />
+                    <ObjectAttribute title="{i18n>Detalle.Panel.1.label.2}" text="{mDetalle>/serie_equipo}" />
                 </Panel>
                 <Panel backgroundDesign="Transparent">
                     <ObjectNumber id="objectHeader" unit="PC" textAlign="End" state="{
@@ -19,7 +17,7 @@
 							formatter: '.formatter.quantityState'}" number="{
 							path: 'mDetalle>/UnitsInStock',
 							formatter: '.formatter.numberUnit'}" />
-                    <ObjectStatus text="{i18n>Detalle.Panel.1.label.3}" state="Error" visible="{path:'mDetalle>/Discontinued'}" />
+                    <ObjectStatus text="{mDetalle>estado}" state="{path: 'mDetalle>estado', formatter: '.formatter.DispositivoState'}" />
                     <ProgressIndicator width="300px" percentValue="{mDetalle>UnitsInStock}" displayValue="{mDetalle>UnitsInStock}" showValue="true" state="{
 							path: 'mDetalle>/UnitsInStock',
 							formatter: '.formatter.quantityState'}" />
@@ -30,16 +28,42 @@
             <l:VerticalLayout width="100%">
                 <Panel backgroundDesign="Transparent" headerText="{i18n>Detalle.Panel.2.title}">
                     <content>
-                        <form:SimpleForm minWidth="1024" maxContainerCols="2" editable="false" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            adjustLabelSpan="false"
+                            emptySpanXL="0"
+                            emptySpanL="0"
+                            emptySpanM="0"
+                            emptySpanS="0"
+                            columnsXL="3"
+                            columnsL="2"
+                            columnsM="2"
+                            singleContainerFullSize="false"
+                        >
                             <form:content>
+                                <core:Title text="" />
                                 <Label text="{i18n>Detalle.Panel.2.label.1}" />
-                                <Text text="{mDetalle/Name}" />
+                                <Text text="{mDetalle>/proveedor}" />
                                 <Label text="{i18n>Detalle.Panel.2.label.2}" />
-                                <Text text="{mDetalle>SupplierName}" />
+                                <Text text="{mDetalle>cargo}" />
                                 <Label text="{i18n>Detalle.Panel.2.label.3}" />
-                                <Text text="{mDetalle>Width} x {mDetalle>Depth} x {mDetalle>Height} {mDetalle>DimUnit}" />
+                                <Text text="{mDetalle>nombre_empleado}" />
                                 <Label text="{i18n>Detalle.Panel.2.label.4}" />
-                                <Text text="dato faltante" />
+                                <Text text="{mDetalle>email}" />
+                                <core:Title text="" />
+                                <Label text="{i18n>Detalle.Panel.2.label.5}" />
+                                <Text text="{mDetalle>fecha_inventario}" />
+                                <Label text="{i18n>Detalle.Panel.2.label.6}" />
+                                <Text text="{mDetalle>fecha_compra}" />
+                                <Label text="{i18n>Detalle.Panel.2.label.7}" />
+                                <Text text="{mDetalle>fecha_translado}" />
+                                <Label text="{i18n>Detalle.Panel.2.label.8}" />
+                                <Text text="{mDetalle>fecha_baja}" />
                             </form:content>
                         </form:SimpleForm>
                     </content>
@@ -53,7 +77,7 @@
                                 <Button type="Emphasized" text="{i18n>button.action.imprimir}" press=".onPressImprimir" />
                             </HBox>
                             <HBox justifyContent="Center">
-                                <Image id="codeQRDetail"  width="{/imageWidth}" />
+                                <Image id="codeQRDetail" width="{/imageWidth}" />
                             </HBox>
                         </VBox>
                     </content>

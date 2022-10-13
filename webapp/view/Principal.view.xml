@@ -25,28 +25,28 @@
                 </infoToolbar>
                 <columns>
                     <Column width="12em">
-                        <Text text="Codigo inventario" />
+                        <Text text="{i18n>Principal.table.column.1}" />
                     </Column>
                     <Column minScreenWidth="Tablet" demandPopin="true">
-                        <Text text="{i18n>nombre_equipo}" />
+                        <Text text="{i18n>Principal.table.column.2}" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
-                        <Text text="fecha inventario" />
+                        <Text text="{i18n>Principal.table.column.3}" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
-                        <Text text="estado" />
+                        <Text text="{i18n>Principal.table.column.4}" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
-                        <Text text="marca_equipo" />
+                        <Text text="{i18n>Principal.table.column.5}" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
-                        <Text text="email" />
+                        <Text text="{i18n>Principal.table.column.6}" />
                     </Column>
                     <Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
-                        <Text text="proveedor" />
+                        <Text text="{i18n>Principal.table.column.7}" />
                     </Column>
                     <Column hAlign="End">
-                        <Text text="serie del equipo" />
+                        <Text text="{i18n>Principal.table.column.8}" />
                     </Column>
                 </columns>
                 <items>

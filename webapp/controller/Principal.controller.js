@@ -34,7 +34,7 @@ sap.ui.define(
     var oCore
     var oView
     var prefixId
-    var oScanResultText
+    // var oScanResultText
     var searchField
 
     return BaseController.extend('com.moony.gestorinventario.controller.Principal', {
@@ -47,22 +47,15 @@ sap.ui.define(
         oView = this.getView()
         oCore = sap.ui.getCore()
         oPrincipalController = this
+        // codigo para reconocer los eventos del DOM aftershow, beforeshow, etc
+        // oView.addEventDelegate({
+        //   // not added the controller as delegate to avoid controller functions with similar names as the events
+        //   onAfterRendering: jQuery.proxy(function (oEvt) {
+        //     this.onAfterRendering(oEvt)
+        //   }, this)
+        // })
 
         this.oRouter = sap.ui.core.UIComponent.getRouterFor(this)
-
-        // codigo para funcionalidad del codigo de barra
-        prefixId = this.createId()
-        if (prefixId) {
-          prefixId = prefixId.split('--')[0] + '--'
-        } else {
-          prefixId = ''
-        }
-        // oScanResultText = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerResult')
-        searchField = oView.byId('searchField')
-        // fin codigo de barras
-
-        // var oModel = sap.ui.getCore().getModel("mProductos");
-        // oModel.refresh()
 
         //obtener datos de db con ajax
         function f_bind_model (data) {
@@ -77,21 +70,13 @@ sap.ui.define(
       },
 
       onSearch: function (oEvent) {
-        if (oEvent.getParameters().refreshButtonPressed) {
-          // Search field's 'refresh' button has been pressed.
-          // This is visible if you select any master list item.
-          // In this case no new search is triggered, we only
-          // refresh the list binding.
-          this.onRefresh()
-        } else {
-          var aTableSearchState = []
-          var sQuery = oEvent.getParameter('query')
+        var aTableSearchState = []
+        var sQuery = (oEvent !== undefined) ? oEvent.getSource().getValue() : oView.byId("searchField").getValue();//oEvent.getParameter('query')
 
-          if (sQuery && sQuery.length > 0) {
-            aTableSearchState = [new Filter('codigo_inventario', FilterOperator.Contains, sQuery)]
-          }
-          this._applySearch(aTableSearchState)
+        if (sQuery && sQuery.length > 0) {
+          aTableSearchState = [new Filter('codigo_inventario', FilterOperator.Contains, sQuery)]
         }
+        this._applySearch(aTableSearchState)
       },
 
       _applySearch: function (aTableSearchState) {
@@ -143,13 +128,14 @@ sap.ui.define(
           MessageToast.show('Scan cancelled', { duration: 1000 })
         } else {
           if (oEvent.getParameter('text')) {
-            // oScanResultText.setText(oEvent.getParameter('text'))
+
             MessageToast.show('escaneado: ' + oEvent.getParameter('text'))
-            // oView.byId("searchField").setText(oEvent.getParameter('text'))
-            oScanResultText = oEvent.getParameter('text')
+            oView.byId("searchField").setValue(oEvent.getParameter('text'))
+            this.onSearch();
           } else {
             // oScanResultText.setText('')
             MessageToast.show('esta vacio')
+            oView.byId("searchField").setValue('')
           }
         }
       },
@@ -162,17 +148,6 @@ sap.ui.define(
         // User can implement the validation about inputting value
       },
 
-      onAfterRendering: function () {
-        // Reset the scan result
-        var oScanButton = sap.ui.getCore().byId(prefixId + 'sampleBarcodeScannerButton')
-        if (oScanButton) {
-          $(oScanButton.getDomRef()).on('click', function () {
-            // oScanResultText.setText('')
-            searchField.setText(oScanResultText)
-          })
-        }
-      },
-      //fin de metodo de codigo de barras
       //inicio de funcionalidad de modal
       onPressAddProduct: function (oEvent) {
         var oButton = oEvent.getSource(),

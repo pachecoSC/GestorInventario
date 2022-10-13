@@ -148,12 +148,12 @@ sap.ui.define(
               // en caso es 0 recorre este camino
 							var oMessage = res.body.msg
 							console.log("algo",oMessage)
-              // oPrincipalController.f_showMessage('WARNING', oMessage)
+              oPrincipalController.f_showMessage('WARNING', oMessage)
             }
           })
           .fail(function (err) {
             console.error(err)
-            // oPrincipalController._onErrorWebService()
+            oPrincipalController._onErrorWebService()
             oBusyDialog.close()
           })
       }
